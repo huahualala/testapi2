@@ -87,7 +87,7 @@ public class UsersController{
     @RequestMapping(value = "/users/{id}",method = RequestMethod.GET)
     @ApiOperation(value = "获取单个用户",notes = "根据id获取某个用户的信息")
     @ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "json", paramType = "string")
-    @SerializedField(includes = {"userName","passWord"},encode = true)
+    @SerializedField(includes = {"userName","passWord"},encode = false)
     public User findUserById(@PathVariable("id") String id){
         User user = usersServiceImp.findUserById(Long.valueOf(id));
         return user;
