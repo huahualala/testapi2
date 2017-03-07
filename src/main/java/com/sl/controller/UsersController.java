@@ -1,7 +1,7 @@
 package com.sl.controller;
 
 import com.sl.common.SerializedField;
-import com.sl.entity.Users;
+import com.sl.entity.User;
 import com.sl.service.impl.UsersServiceImp;
 import com.sl.vo.ReturnVo;
 import io.swagger.annotations.Api;
@@ -63,8 +63,8 @@ public class UsersController{
 
     @ApiOperation(value = "用户登录",notes = "用户登录验证用户名和密码，返回登录令牌",httpMethod = "POST")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userName",required = true,dataType = "json",paramType = "string"),
-            @ApiImplicitParam(name = "passWord",required = true,dataType = "json",paramType = "string")
+            @ApiImplicitParam(name = "userName", value = "用户名",required = true,dataType = "json",paramType = "string"),
+            @ApiImplicitParam(name = "passWord", value = "密码",required = true,dataType = "json",paramType = "string")
     })
     @RequestMapping(value = "/logins",method = RequestMethod.POST)
     public ReturnVo login(String userName,String passWord){
@@ -88,17 +88,17 @@ public class UsersController{
     @ApiOperation(value = "获取单个用户",notes = "根据id获取某个用户的信息")
     @ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "json", paramType = "string")
     @SerializedField(includes = {"userName","passWord"},encode = true)
-    public Users findUserById(@PathVariable("id") String id){
-        Users users = usersServiceImp.findUserById(Long.valueOf(id));
-        return users;
+    public User findUserById(@PathVariable("id") String id){
+        User user = usersServiceImp.findUserById(Long.valueOf(id));
+        return user;
     }
 
 
     @RequestMapping(value = "/users",method = RequestMethod.GET)
     @ApiOperation(value = "获取所有用户",notes = "获取所有用户的用户信息")
     @SerializedField(excludes = {"passWord"})
-    public List<Users> findAllUsers(){
-        List<Users> users = usersServiceImp.findAllUsers();
+    public List<User> findAllUsers(){
+        List<User> users = usersServiceImp.findAllUsers();
         return users;
     }
 

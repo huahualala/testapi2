@@ -10,8 +10,8 @@ import java.sql.Timestamp;
  * Created by Administrator on 2017/3/2 0002.
  */
 @Entity
-@Table(name = "users")
-public class Users extends BaseEntity{
+@Table(name = "user")
+public class User extends BaseEntity{
 
     private Long userId;
     private String userName;
@@ -25,10 +25,12 @@ public class Users extends BaseEntity{
     private Integer loginState;//0:注销(default)，1:登录
     private Integer userState;//0:关闭，1:开启(default),2:删除
 
+    private Business business;
+
     @JsonIgnore
     private String token;
 
-    public Users(Long userId, String userName, String passWord, Timestamp createTime, Timestamp lastLoginTime, Integer loginState, Integer userState, String token) {
+    public User(Long userId, String userName, String passWord, Timestamp createTime, Timestamp lastLoginTime, Integer loginState, Integer userState, Business business, String token) {
         this.userId = userId;
         this.userName = userName;
         this.passWord = passWord;
@@ -36,10 +38,11 @@ public class Users extends BaseEntity{
         this.lastLoginTime = lastLoginTime;
         this.loginState = loginState;
         this.userState = userState;
+        this.business = business;
         this.token = token;
     }
 
-    public Users() {
+    public User() {
     }
 
     @Id
@@ -115,17 +118,14 @@ public class Users extends BaseEntity{
         this.userState = userState;
     }
 
-    @Override
-    public String toString() {
-        return "Users{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", passWord='" + passWord + '\'' +
-                ", createTime=" + createTime +
-                ", lastLoginTime=" + lastLoginTime +
-                ", loginState=" + loginState +
-                ", userState=" + userState +
-                ", token='" + token + '\'' +
-                '}';
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REMOVE})
+    @JoinColumn(name = "business_id")
+    public Business getBusiness() {
+        return business;
     }
+
+    public void setBusiness(Business business) {
+        this.business = business;
+    }
+
 }
